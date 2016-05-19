@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/store?autoReconnect\=true&autoReconnectForPools=true
+    username: developer
+    password: developer
