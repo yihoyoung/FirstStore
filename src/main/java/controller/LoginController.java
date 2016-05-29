@@ -11,7 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.webjars.RequireJS;
 import service.LoginUserDetailsService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,34 +22,41 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Created by hoyounglee on 2016. 5. 18..
  */
-@Controller
+@RestController
 public class LoginController {
     final static Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
     LoginUserDetailsService userService;
 
+    @ResponseBody
+    @RequestMapping(value = "/webjarsjs", produces = "application/javascript")
+    public String webjarjs() {
+        return RequireJS.getSetupJavaScript("/webjars/");
+    }
+
     @RequestMapping("loginForm")
-    String loginForm(){
+    public String loginForm(){
         return "loginForm";
     }
 
 
 
     @RequestMapping("menu")
-    String menuForm(){
+    public String menuForm(){
         return "menu";
     }
 
 
     @RequestMapping("registForm")
-    String registForm(){
+    public String registForm(){
         return "registForm";
     }
 
 
     @RequestMapping(value = "/regist", method = RequestMethod.POST)
-    ModelAndView regist(Model model, HttpServletRequest request){
+    public ModelAndView regist(Model model, HttpServletRequest request){
+        logger.info("start regist!!!1");
         ModelAndView view = new ModelAndView();
         String userName = StringUtils.isEmpty(request.getParameter("username")) ? "" : request.getParameter("username");
         String password = StringUtils.isEmpty(request.getParameter("password")) ? "" : request.getParameter("password");

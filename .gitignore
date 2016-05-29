@@ -15,6 +15,10 @@ reated by https://www.gitignore.io/api/intellij,java,maven
 # IntelliJ
 /out/
 
+# Eclipse
+.classpah
+.project
+
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
@@ -48,6 +52,7 @@ buildNumber.properties
 
 ### Java ###
 *.class
+.settings/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
