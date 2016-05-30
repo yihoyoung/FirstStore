@@ -55,7 +55,9 @@ public class LoginControllerTest {
                         .param("email", "yihoyoung@nate.com"));
  
         resultActions.andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+                .andExpect(MockMvcResultMatchers.view().name("registForm"))
+                .andExpect(MockMvcResultMatchers.model().attribute("isRegisted", false));
     }
  
     @Test
