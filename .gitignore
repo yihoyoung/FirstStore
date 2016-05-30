@@ -16,8 +16,9 @@ reated by https://www.gitignore.io/api/intellij,java,maven
 /out/
 
 # Eclipse
-.classpah
+.classpath
 .project
+.springBeans
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/

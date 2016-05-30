@@ -6,7 +6,7 @@
         </layout>
     </appender>
 
-    <logger name="example.logback.level.grandparents" level="TRACE"/>
+    <logger name="org.springframework" level="ERROR"/>
     <logger name="example.logback.level.grandparents.parents.children" level="INFO"/>
     <root level="info">
         <appender-ref ref="STDOUT" />

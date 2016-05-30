@@ -1,26 +1,29 @@
-package domain;
+package org.store.domain;
+
+import java.io.Serializable;
 
 /**
  * Created by hoyounglee on 2016. 5. 18..
  */
 
-import java.util.List;
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "user")
-public class User {
-    @Id
+public class User implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Id
     @GeneratedValue
     private Integer id;
     @Column(nullable = false)

@@ -1,17 +1,12 @@
-package config;
+package org.store;
 
 /**
  * Created by hoyounglee on 2016. 5. 19..
  */
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-import org.webjars.RequireJS;
 
 @Configuration
 public class MvcConfig extends WebMvcConfigurerAdapter {
