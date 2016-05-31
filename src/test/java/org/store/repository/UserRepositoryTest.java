@@ -1,4 +1,4 @@
-package org.store.controller;
+package org.store.repository;
 
 
 import org.junit.Before;
@@ -28,19 +28,25 @@ public class UserRepositoryTest {
 	@Before
 	public void setUp() throws Exception {
 		user = new User();
-		user.setUsername("Yihoyoung");
 	}
 
 	@Test(expected = DataIntegrityViolationException.class)
     public void testCreateUserNoEmail()  {
+		user.setUsername("Yihoyoung");
 		user.setPassword("111");
-        userRepository.save(user);
+        assertEquals(userRepository.save(user).getUsername(), user.getUsername());
+    }
+
+	@Test(expected = DataIntegrityViolationException.class)
+    public void testCreateUserNoUserName()  {
+		user.setEmail("yihoyoung@nate.com");
+		user.setPassword("111");
+        assertEquals(userRepository.save(user).getUsername(), user.getUsername());
     }
 
 	@Test
     public void testCreateUserOK()  {
-		user.setPassword("111");
-		user.setEmail("yihoyoung@nate.com");
+		user = new User(1, "yihoyoung@nate.com", "111", "Yihoyoung");
         User dbUser = userRepository.save(user);
         assertEquals("user", user, dbUser);
     }

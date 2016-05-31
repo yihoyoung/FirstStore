@@ -45,6 +45,26 @@ public class LoginControllerTest {
         user.setPassword("123");
         user.setEmail("yihoyoung@nate.com");
     }
+    
+    @Test
+    public void testGetLoginForm() throws Exception {
+        ResultActions resultActions =
+                mock.perform(MockMvcRequestBuilders.get("/loginForm"));
+ 
+        resultActions.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("loginForm"));
+    }
+    
+    @Test
+    public void testGetRegistForm() throws Exception {
+        ResultActions resultActions =
+                mock.perform(MockMvcRequestBuilders.get("/registForm"));
+ 
+        resultActions.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("registForm"));
+    }
  
     @Test
     public void testCreateUserError() throws Exception {
@@ -74,17 +94,34 @@ public class LoginControllerTest {
     }
  
     @Test
-    public void testGetUserList() throws Exception {
+    public void testlogin() throws Exception {
         userRepository.save(user);
  
         ResultActions resultActions =
                 mock.perform(MockMvcRequestBuilders.post("/login")
                 		.contentType(MediaType.TEXT_HTML_VALUE)
-                		.param("username", "James")
-                        .param("password", "123")
-                        .param("email", "yihoyoung@nate.com"));
+                        .param("password", user.getPassword())
+                        .param("email", user.getEmail()));
  
         resultActions.andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("menu"))
+                .andExpect(MockMvcResultMatchers.model().attribute("username", user.getUsername()));
+    }
+ 
+    @Test
+    public void testloginfail() throws Exception {
+        userRepository.save(user);
+ 
+        ResultActions resultActions =
+                mock.perform(MockMvcRequestBuilders.post("/login")
+                		.contentType(MediaType.TEXT_HTML_VALUE)
+                        .param("password", "notapassword")
+                        .param("email", user.getEmail()));
+ 
+        resultActions.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("loginForm"))
+                .andExpect(MockMvcResultMatchers.model().attribute("error", "Email or Password is not corrent."));
     }
 }

@@ -1,13 +1,13 @@
 package org.store.controller;
 
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -76,17 +76,20 @@ public class LoginController {
     public ModelAndView login(Model model, HttpServletRequest request){
         logger.info("start regist!!!1");
         ModelAndView view = new ModelAndView();
-        String userName = StringUtils.isEmpty(request.getParameter("username")) ? "" : request.getParameter("username");
         String password = StringUtils.isEmpty(request.getParameter("password")) ? "" : request.getParameter("password");
         String email = StringUtils.isEmpty(request.getParameter("email")) ? "" : request.getParameter("email");
-        logger.info("regist username : "  + userName + ", Password : " + password);
-        User user = userService.save(email, password, userName);
-        if(StringUtils.isEmpty(user.getUsername())){
-            view.setViewName("registForm");
-            view.addObject("isRegisted", false);
-        }else{
-            view.setViewName("registed");
+        logger.info("login email : "  + email + ", Password : " + password);
+        if(StringUtils.isEmpty(email) || StringUtils.isEmpty(password)){
+        	view.setViewName("loginForm");
+            view.addObject("error", "Email or Password not can be empty.");
+        }
+        User user = userService.find(email);
+        if(StringUtils.equals(password, user.getPassword())){
+        	view.setViewName("menu");
             view.addObject("username", user.getUsername());
+        }else{
+        	view.setViewName("loginForm");
+            view.addObject("error", "Email or Password is not corrent.");
         }
         return view;
     }

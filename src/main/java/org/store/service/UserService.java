@@ -13,10 +13,13 @@ public class UserService {
 	User user;
 
 	public User save(String email, String password, String userName) {
-		// TODO Auto-generated method stub
 		user = new User(email, password, userName);
 		userRepository.save(user);
 		return user;
+	}
+
+	public User find(String email) {
+		return userRepository.findByEmail(email);
 	}
 
 }
