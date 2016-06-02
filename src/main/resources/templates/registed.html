@@ -4,28 +4,17 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1"
           charset="UTF-8" />
-    <title>Login</title>
+    <title>가입되셨습니다</title>
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css' />
 </head>
 <body>
 <div class="container-fluid col-sm-12">
-    <h1>English Vocabulary</h1>
-    <form class="form-signin" th:action="@{/loginForm}" method="post">
+    <h1>환영합니다.</h1>
         <p>
-            <button class="btn btn-info btn-lg" type="submit">로그인</button>
+            <span th:text="@{username}"></span> 님, 안녕하세요.
         </p>
-    </form>
-    <form class="form-signin" th:action="@{/regist}" method="post">
-        <h2 class="form-signin-heading">Create Account</h2>
-        <div th:if="${param.error}" class="alert alert-danger">중복된 아이디나 잘못된 암호
-            입니다.</div>
-        <input type="text" class="form-control" name="email"
-               placeholder="Email" required="required" autofocus="autofocus" value=""/>
-        <input type="text" class="form-control" name="username"
-               placeholder="Username" required="required" autofocus="autofocus" value=""/>
-        <input type="password" class="form-control" name="password"
-               placeholder="Password" required="required" autofocus="autofocus" value=""/>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Create your Account</button>
+    <form class="form-signin" th:action="@{/menu}" method="post">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">메인으로 가</button>
     </form>
 </div>
 </body>

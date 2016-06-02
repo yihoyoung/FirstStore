@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -84,13 +85,18 @@ public class LoginController {
             view.addObject("error", "Email or Password not can be empty.");
         }
         User user = userService.find(email);
-        if(StringUtils.equals(password, user.getPassword())){
+        if(ObjectUtils.isEmpty(user)){
+        	view.setViewName("loginForm");
+            view.addObject("error", "Email or Password is incorrect.");
+        }
+        else if(StringUtils.equals(password, user.getPassword())){
         	view.setViewName("menu");
             view.addObject("username", user.getUsername());
         }else{
         	view.setViewName("loginForm");
-            view.addObject("error", "Email or Password is not corrent.");
+            view.addObject("error", "Email or Password is incorrect.");
         }
         return view;
     }
+    
 }

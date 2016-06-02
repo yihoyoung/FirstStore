@@ -18,14 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.store.Application;
 import org.store.MvcConfig;
-import org.store.SecurityConfig;
 import org.store.domain.User;
 import org.store.repository.UserRepository;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {Application.class, MvcConfig.class, SecurityConfig.class})
+@SpringApplicationConfiguration(classes = {Application.class, MvcConfig.class})
 @WebAppConfiguration
 @IntegrationTest("server.port=8888")
 @Transactional
@@ -122,6 +121,37 @@ public class LoginControllerTest {
         resultActions.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("loginForm"))
-                .andExpect(MockMvcResultMatchers.model().attribute("error", "Email or Password is not corrent."));
+                .andExpect(MockMvcResultMatchers.model().attribute("error", "Email or Password is incorrect."));
+    }
+
+    @Test
+    public void testloginNoPassword() throws Exception {
+        userRepository.save(user);
+ 
+        ResultActions resultActions =
+                mock.perform(MockMvcRequestBuilders.post("/login")
+                		.contentType(MediaType.TEXT_HTML_VALUE)
+                        .param("email", user.getEmail()));
+ 
+        resultActions.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("loginForm"))
+                .andExpect(MockMvcResultMatchers.model().attribute("error", "Email or Password is incorrect."));
+    }
+
+    @Test
+    public void loginWrongEmailTest() throws Exception {
+        userRepository.save(user);
+ 
+        ResultActions resultActions =
+                mock.perform(MockMvcRequestBuilders.post("/login")
+                		.contentType(MediaType.TEXT_HTML_VALUE)
+                		.param("password", "notapassword")
+                        .param("email", "yihoyoung2222@aab.com"));
+ 
+        resultActions.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("loginForm"))
+                .andExpect(MockMvcResultMatchers.model().attribute("error", "Email or Password is incorrect."));
     }
 }

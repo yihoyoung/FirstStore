@@ -4,17 +4,32 @@ spring:
     url: jdbc:mysql://localhost:3306/store?autoReconnect\=true
     username: developer
     password: developer
-
   thymeleaf:
     cache: false
-
   mvc:
     throw-exception-if-no-handler-found: true
   resources:
     add-mappings: false
-  
   jpa:
     hibernate:
       ddl-auto: create
     generate-ddl: false
     show-sql: true
+security:
+  oauth2:
+    client:
+      client-id: acme
+      client-secret: acmesecret
+      scope: read,write
+      auto-approve-scopes: '.*'
+facebook:
+  client:
+    clientId: 233668646673605
+    clientSecret: 33b17e044ee6a4fa383f46ec6e28ea1d
+    accessTokenUri: https://graph.facebook.com/oauth/access_token
+    userAuthorizationUri: https://www.facebook.com/dialog/oauth
+    tokenName: oauth_token
+    authenticationScheme: query
+    clientAuthenticationScheme: form
+  resource:
+    userInfoUri: https://graph.facebook.com/me

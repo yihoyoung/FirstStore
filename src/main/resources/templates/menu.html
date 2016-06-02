@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"
           charset="UTF-8" />
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css' />
-    <title>Login</title>
+    <title>카메라</title>
 </head>
 <body>
 <div class="container-fluid col-sm-12">
-    <h1>Login</h1>
+    <h1>카메라</h1>
     <form class="form-signin" th:action="@{/registForm}" method="post">
         <p>
-            <button class="btn btn-info btn-lg" type="submit">{username}</button>
+            Hi, <span th:text="${username}"></span>
         </p>
     </form>
     <form class="form-signin" th:action="@{/login}" method="post">
