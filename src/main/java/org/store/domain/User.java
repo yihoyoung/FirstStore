@@ -12,6 +12,8 @@ import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.thymeleaf.util.StringUtils;
 
 @Data
 @NoArgsConstructor

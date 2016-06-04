@@ -30,8 +30,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
@@ -83,17 +88,18 @@ public class Application extends WebSecurityConfigurerAdapter {
 	              .anyRequest().authenticated()
 	              .and()
 	        .formLogin()
-	              .loginPage("/loginForm")
-	              .failureUrl("/loginForm?error=이메일이나 비밀번호가 정확하지 않습니다.")
+				  .loginProcessingUrl("/login")
+	              .failureUrl("/loginForm?error")
 	              .defaultSuccessUrl("/menu", true)
-	              .permitAll()
+				  .usernameParameter("email").passwordParameter("password")
 	              .and()
 	         .logout()
 	              .logoutSuccessUrl("/")
 	              .permitAll()
-	         .and().csrf().csrfTokenRepository(csrfTokenRepository()).and()
-			 .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
-			 .addFilterBefore(ssoFilter(facebook(), "/login/facebook"), BasicAuthenticationFilter.class);
+	         //.and().csrf().csrfTokenRepository(csrfTokenRepository()).and()
+			 //.addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
+				.and().csrf().disable()
+			  .addFilterBefore(ssoFilter(facebook(), "/login/facebook"), BasicAuthenticationFilter.class);
 		/*
 		http.antMatcher("/**").authorizeRequests()
 				.antMatchers("/", "/login**", "/webjars/**", "/loginForm", "/home", "/registForm", "/regist", "/me")
@@ -188,6 +194,22 @@ public class Application extends WebSecurityConfigurerAdapter {
 	@RequestMapping("/unauthenticated")
 	public String unauthenticated() {
 	  return "redirect:/?error=true";
+	}
+
+	@Configuration
+	static class AuthenticationConfiguration extends GlobalAuthenticationConfigurerAdapter{
+		@Autowired
+		UserDetailsService userDetailsService;
+
+		@Bean
+		PasswordEncoder passwordEncoder(){
+			return null;
+		}
+
+		@Override
+		public void init(AuthenticationManagerBuilder auth) throws Exception {
+			auth.userDetailsService((userDetailsService));
+		}
 	}
 }
 

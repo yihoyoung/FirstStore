@@ -72,7 +72,8 @@ public class LoginController {
         }
         return view;
     }
-    
+
+    /**
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView login(Model model, HttpServletRequest request){
         logger.info("start regist!!!1");
@@ -98,5 +99,6 @@ public class LoginController {
         }
         return view;
     }
+    */
     
 }

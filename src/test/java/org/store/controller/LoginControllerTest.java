@@ -7,6 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -21,6 +26,12 @@ import org.store.MvcConfig;
 import org.store.domain.User;
 import org.store.repository.UserRepository;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.store.service.LoginUserDetailsService;
+import org.store.service.UserService;
+
+import javax.servlet.Filter;
+
+import static org.junit.Assert.assertEquals;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -34,11 +45,20 @@ public class LoginControllerTest {
  
     @Autowired private UserRepository userRepository;
     @Autowired private WebApplicationContext wac;
+    @Autowired
+    private FilterChainProxy filterChainProxy;
+    @Autowired
+    private Filter springSecurityFilterChain;
+    @Autowired
+    UserService userService;
+    @Autowired
+    LoginUserDetailsService userDetailsService;
+
     private MockMvc mock;
  
     @Before
     public void setUp() throws Exception {
-        this.mock = MockMvcBuilders.webAppContextSetup(wac).build();
+        this.mock = MockMvcBuilders.webAppContextSetup(wac).addFilters(this.springSecurityFilterChain).build();
         user = new User();
         user.setUsername("James");
         user.setPassword("123");
@@ -95,7 +115,8 @@ public class LoginControllerTest {
     @Test
     public void testlogin() throws Exception {
         userRepository.save(user);
- 
+
+
         ResultActions resultActions =
                 mock.perform(MockMvcRequestBuilders.post("/login")
                 		.contentType(MediaType.TEXT_HTML_VALUE)
@@ -103,9 +124,8 @@ public class LoginControllerTest {
                         .param("email", user.getEmail()));
  
         resultActions.andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("menu"))
-                .andExpect(MockMvcResultMatchers.model().attribute("username", user.getUsername()));
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/menu"));
     }
  
     @Test
@@ -119,9 +139,8 @@ public class LoginControllerTest {
                         .param("email", user.getEmail()));
  
         resultActions.andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("loginForm"))
-                .andExpect(MockMvcResultMatchers.model().attribute("error", "Email or Password is incorrect."));
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/loginForm?error"));
     }
 
     @Test
@@ -134,24 +153,24 @@ public class LoginControllerTest {
                         .param("email", user.getEmail()));
  
         resultActions.andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("loginForm"))
-                .andExpect(MockMvcResultMatchers.model().attribute("error", "Email or Password is incorrect."));
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/loginForm?error"));
     }
 
     @Test
     public void loginWrongEmailTest() throws Exception {
         userRepository.save(user);
- 
+
         ResultActions resultActions =
                 mock.perform(MockMvcRequestBuilders.post("/login")
                 		.contentType(MediaType.TEXT_HTML_VALUE)
+                		.param("_csrf", "cc20f377-a721-4eeb-ac11-72137ba4b952")
                 		.param("password", "notapassword")
                         .param("email", "yihoyoung2222@aab.com"));
  
         resultActions.andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("loginForm"))
-                .andExpect(MockMvcResultMatchers.model().attribute("error", "Email or Password is incorrect."));
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/loginForm?error"));
+
     }
 }
