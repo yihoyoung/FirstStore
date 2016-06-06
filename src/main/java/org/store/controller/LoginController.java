@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.store.domain.Product;
 import org.store.domain.User;
 import org.store.service.UserService;
 import org.webjars.RequireJS;
@@ -39,14 +40,6 @@ public class LoginController {
     public String loginForm(){
         return "loginForm";
     }
-
-
-
-    @RequestMapping("menu")
-    public String menuForm(){
-        return "menu";
-    }
-
 
     @RequestMapping("registForm")
     public String registForm(){

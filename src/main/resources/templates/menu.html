@@ -8,6 +8,7 @@
     <title>카메라</title>
 </head>
 <body>
+<div th:replace="header :: header">&nbsp;</div>
 <div class="container-fluid col-sm-12">
     <h1>카메라</h1>
     <form class="form-signin" th:action="@{/registForm}" method="post">
@@ -15,17 +16,8 @@
             Hi, <span th:text="${username}"></span>
         </p>
     </form>
-    <form class="form-signin" th:action="@{/login}" method="post">
-        <h2 class="form-signin-heading">로그인</h2>
-        <div th:if="${param.error}" class="alert alert-danger">잘못된 Email 주소나
-            암호 입니다.</div>
-        <input type="text" class="form-control" name="email"
-               placeholder="Email" required="required" autofocus="autofocus" value="email"/>
-        <input type="password" class="form-control" name="password"
-               placeholder="Password" required="required" autofocus="autofocus" value="demo"/>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign
-            in</button>
-    </form>
+
 </div>
+<div th:replace="footer :: 'footer'">&copy; 2013 The Static Templates</div>
 </body>
 </html>
