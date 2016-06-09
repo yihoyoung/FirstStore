@@ -37,34 +37,29 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String getLoginForm(){
-        return "loginForm";
-    }
-
-    @RequestMapping(value = "/loginForm", method = RequestMethod.GET)
-    public String loginForm(){
-        return "loginForm";
+    public String getLoginForm() {
+        return "loginPage";
     }
 
     @RequestMapping("registForm")
-    public String registForm(){
+    public String registForm() {
         return "registForm";
     }
 
 
     @RequestMapping(value = "/regist", method = RequestMethod.POST)
-    public ModelAndView regist(Model model, HttpServletRequest request){
+    public ModelAndView regist(Model model, HttpServletRequest request) {
         logger.info("start regist!!!1");
         ModelAndView view = new ModelAndView();
         String userName = StringUtils.isEmpty(request.getParameter("username")) ? "" : request.getParameter("username");
         String password = StringUtils.isEmpty(request.getParameter("password")) ? "" : request.getParameter("password");
         String email = StringUtils.isEmpty(request.getParameter("email")) ? "" : request.getParameter("email");
-        logger.info("regist username : "  + userName + ", Password : " + password);
+        logger.info("regist username : " + userName + ", Password : " + password);
         User user = userService.save(email, password, userName);
-        if(StringUtils.isEmpty(user.getUsername())){
+        if (StringUtils.isEmpty(user.getUsername())) {
             view.setViewName("registForm");
             view.addObject("isRegisted", false);
-        }else{
+        } else {
             view.setViewName("registed");
             view.addObject("username", user.getUsername());
         }
@@ -72,31 +67,31 @@ public class LoginController {
     }
 
     /**
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView login(Model model, HttpServletRequest request){
-        logger.info("start regist!!!1");
-        ModelAndView view = new ModelAndView();
-        String password = StringUtils.isEmpty(request.getParameter("password")) ? "" : request.getParameter("password");
-        String email = StringUtils.isEmpty(request.getParameter("email")) ? "" : request.getParameter("email");
-        logger.info("login email : "  + email + ", Password : " + password);
-        if(StringUtils.isEmpty(email) || StringUtils.isEmpty(password)){
-        	view.setViewName("loginForm");
-            view.addObject("error", "Email or Password not can be empty.");
-        }
-        User user = userService.find(email);
-        if(ObjectUtils.isEmpty(user)){
-        	view.setViewName("loginForm");
-            view.addObject("error", "Email or Password is incorrect.");
-        }
-        else if(StringUtils.equals(password, user.getPassword())){
-        	view.setViewName("menu");
-            view.addObject("username", user.getUsername());
-        }else{
-        	view.setViewName("loginForm");
-            view.addObject("error", "Email or Password is incorrect.");
-        }
-        return view;
-    }
-    */
-    
+     @RequestMapping(value = "/login", method = RequestMethod.POST)
+     public ModelAndView login(Model model, HttpServletRequest request){
+     logger.info("start regist!!!1");
+     ModelAndView view = new ModelAndView();
+     String password = StringUtils.isEmpty(request.getParameter("password")) ? "" : request.getParameter("password");
+     String email = StringUtils.isEmpty(request.getParameter("email")) ? "" : request.getParameter("email");
+     logger.info("login email : "  + email + ", Password : " + password);
+     if(StringUtils.isEmpty(email) || StringUtils.isEmpty(password)){
+     view.setViewName("loginForm");
+     view.addObject("error", "Email or Password not can be empty.");
+     }
+     User user = userService.find(email);
+     if(ObjectUtils.isEmpty(user)){
+     view.setViewName("loginForm");
+     view.addObject("error", "Email or Password is incorrect.");
+     }
+     else if(StringUtils.equals(password, user.getPassword())){
+     view.setViewName("menu");
+     view.addObject("username", user.getUsername());
+     }else{
+     view.setViewName("loginForm");
+     view.addObject("error", "Email or Password is incorrect.");
+     }
+     return view;
+     }
+     */
+
 }

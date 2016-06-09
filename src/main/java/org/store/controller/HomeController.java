@@ -40,7 +40,7 @@ public class HomeController {
     @RequestMapping(method=RequestMethod.GET)
     public String helloFacebook(Model model) {
         if (connectionRepository.findPrimaryConnection(Facebook.class) == null) {
-            return "redirect:/loginForm";
+            return "redirect:/loginPage";
         }
 
         model.addAttribute("facebookProfile", facebook.userOperations().getUserProfile());

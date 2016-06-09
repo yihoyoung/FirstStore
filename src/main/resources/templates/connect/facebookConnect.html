@@ -1,23 +1,31 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1"
-	charset="UTF-8" />
-<link rel='stylesheet'
-	href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css' />
-<title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"
+          charset="UTF-8"/>
+    <link rel='stylesheet'
+          href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'/>
+    <style type="text/css">
+        body {
+        padding-top: 70px;
+        padding-bottom: 50px;
+        }
+    </style>
+    <title>Login</title>
 </head>
 <body>
-	<div th:replace="header :: header"></div>
-	<div class="container">
-		<h3>페이스북 로그인</h3>
-		
-		<form action="/connect/facebook" method="POST">
-			<input type="hidden" name="scope" value="user_posts" />
-			<p><button type="submit" class="btn btn-primary btn-lg">페이스북 로그인</button></p>
-		</form>
-		</div>
-	</body>
+<div th:replace="header :: header"></div>
+<div class="container">
+    <h3>페이스북 로그인</h3>
+
+    <form action="/connect/facebook" method="POST">
+        <input type="hidden" name="scope" value="user_posts"/>
+        <p>
+            <button type="submit" class="btn btn-primary btn-lg">페이스북 로그인</button>
+        </p>
+    </form>
+</div>
+</body>
 </html>
