@@ -46,8 +46,8 @@ public class UserRepositoryTest {
 
 	@Test
     public void testCreateUserOK()  {
-		user = new User(1, "yihoyoung@nate.com", "111", "Yihoyoung");
+		user = new User(1, "yihoyoung@nate.com", "111", "Yihoyoung", null, null);
         User dbUser = userRepository.save(user);
-        assertEquals("user", user, dbUser);
+        assertEquals("user", user.getEmail(), dbUser.getEmail());
     }
 }

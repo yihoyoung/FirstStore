@@ -10,8 +10,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.store.Application;
 import org.store.domain.Product;
-import org.store.repository.ProductRepository;
-
+import org.store.service.ProductService;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
@@ -28,7 +27,7 @@ public class ProductServiceTest {
     Product product;
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductService productService;
 
     @Before
     public void setUp(){
@@ -42,7 +41,7 @@ public class ProductServiceTest {
 
     @Test
     public void getProductList(){
-        List<Product> products = (List<Product>) productRepository.findAll();
+        List<Product> products = (List<Product>) productService.getProductList();
         assertNotNull(products);
     }
 }

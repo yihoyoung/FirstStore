@@ -36,7 +36,12 @@ public class LoginController {
         return RequireJS.getSetupJavaScript("/webjars/");
     }
 
-    @RequestMapping("loginForm")
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String getLoginForm(){
+        return "loginForm";
+    }
+
+    @RequestMapping(value = "/loginForm", method = RequestMethod.GET)
     public String loginForm(){
         return "loginForm";
     }

@@ -2,10 +2,11 @@ create database IF NOT EXISTS store;
 
 CREATE TABLE IF NOT EXISTS user (
 user_id INT PRIMARY KEY AUTO_INCREMENT comment '유저ID',
-email varchar(50) not null comment 'email',
+email varchar(50) comment 'email',
 username varchar(50) not null comment 'username',
 password varchar(50) not null comment 'password',
 social_id varchar(200) comment 'facebook id',
+social_type varchar(1) comment 'f:facebook',
 UNIQUE KEY `user_email_uix`(`email`));
 
 CREATE TABLE IF NOT EXISTS product (

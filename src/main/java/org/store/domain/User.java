@@ -12,8 +12,6 @@ import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.thymeleaf.util.StringUtils;
 
 @Data
 @NoArgsConstructor
@@ -27,18 +25,24 @@ public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
     @GeneratedValue
-    private Integer user_id;
+    private Integer userId;
     @Column(nullable = false)
     private String username;
     @Column(nullable = false)
     private String password;
     @Column(nullable = false)
     private String email;
-
+    @Column
+    private String socialId;
+    @Column
+    private String socialType;
 
     public User(String email, String password, String username) {
         this.email = email;
         this.username = username;
         this.password = password;
     }
+
+
+
 }

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1"
+	charset="UTF-8" />
+<link rel='stylesheet'
+	href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css' />
+<title>Login</title>
+</head>
+<body>
+	<div th:replace="header :: header"></div>
+	<div class="container">
+
+		<h4>짜릿한 경험을 이젠 동영상으로 담아보세요.</h4>
+
+		<div th:each="product:${products}">
+			<b th:text="${product.name}">from</b>
+			<p th:text="${product.description}">message text</p>
+			<img th:if="${product.mainImageUrl}" th:src="${product.mainImageUrl}" />
+			가격 : <span th:text="${product.price}"></span> 원
+			<hr />
+		</div>
+	</div>
+	<div class="footer" th:replace="footer :: footer">&copy; 2013 The
+		Static Templates</div>
+</body>
+</html>

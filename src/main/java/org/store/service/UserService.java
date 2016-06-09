@@ -14,12 +14,17 @@ public class UserService {
 
 	public User save(String email, String password, String userName) {
 		user = new User(email, password, userName);
-		userRepository.save(user);
+		user = userRepository.save(user);
 		return user;
 	}
 
 	public User find(String email) {
 		return userRepository.findByEmail(email);
+	}
+
+	public User save(User user) {
+		userRepository.save(user);
+		return user;
 	}
 
 }

@@ -12,6 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.FilterChainProxy;
+import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -68,11 +70,11 @@ public class LoginControllerTest {
     @Test
     public void testGetLoginForm() throws Exception {
         ResultActions resultActions =
-                mock.perform(MockMvcRequestBuilders.get("/loginForm"));
+                mock.perform(MockMvcRequestBuilders.get("/loginPage"));
  
         resultActions.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("loginForm"));
+                .andExpect(MockMvcResultMatchers.view().name("loginPage"));
     }
     
     @Test
@@ -140,7 +142,7 @@ public class LoginControllerTest {
  
         resultActions.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/loginForm?error"));
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/loginPage?error"));
     }
 
     @Test
@@ -154,7 +156,7 @@ public class LoginControllerTest {
  
         resultActions.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/loginForm?error"));
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/loginPage?error"));
     }
 
     @Test
@@ -170,7 +172,13 @@ public class LoginControllerTest {
  
         resultActions.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/loginForm?error"));
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/loginPage?error"));
 
+    }
+    
+    @Test
+    public void facebookLoginTest(){
+    	Facebook facebook = new FacebookTemplate(null);
+    	
     }
 }
